@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Driving licence holders</title>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin&family=Lora&display=swap');
+
+  body {
+    max-width: 700px;
+    margin: 0px auto;
+  }
+
+  #visuallyhidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+  }
+
+  #title {
+    font-family: 'Lora', serif;
+    font-weight: bold;
+    font-size: 20px;
+    color: #212121;
+    text-align: left;
+  }
+
+  #subtitle {
+    font-family: 'Lora', serif;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 0.2em;
+    color: #212121;
+    text-align: left;
+  }
+
+  figcaption {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 12px;
+    color: #212121;
+    margin: 16px 0 8px 0;
+  }
+
+</style>
+
+</head>
+
+<body>
+  <h5 id='visuallyhidden'>Connected dot plot of the percentage of driving licence holders in England by age group in 2000 and 2021. The chart shows that the percentage of teenagers able to drive has halved in the last twenty years.</h5>
+  <div>
+    <h2 id="title">Percentage of teenagers able to drive has halved in 20 years</h2>
+    <h3 id="subtitle">Full car driving licence holders by age, England</h3>
+  </div>
+  <div id='graphic'></div>
+
+<script>
+
+  d3.csv("data/data.csv", d => ({
+    year: d.year,
+    age: d.age,
+    value: +d.value
+  })).then(data => {
+    console.log(data);
+    var options = {
+      style: {fontSize: "14px", fontFamily: "'Libre Franklin', sans-serif;"},
+      width: 550,
+      marginLeft: 50,
+      x: {domain: [0,1], grid: true, label: null, labelOffset: 50, tickFormat: "%", tickSize: 0},
+      y: {domain: ["17-20","21-29","30-39","40-49","50-59","60-69","70+"], label: null, tickSize: 0},
+      color: {legend: true, range: ["#27A0CC", "#206095"], style: {fontSize: "14px", fontFamily: "'Libre Franklin', sans-serif;"}},
+      marks: [
+        Plot.ruleX([0], {stroke: "#333333", strokeWidth: 1}),
+        Plot.ruleY(data, Plot.groupY({x1: "min", x2: "max"}, {x: "value", y: "age", stroke: "#dddddd", strokeWidth: 2.5})),
+        Plot.dot(data, {x: "value", y: "age", r: 5, fill: "year"})
+      ],
+      caption: "Source: Table NTS0201, Department for Transport"
+    };
+    document.getElementById('graphic').appendChild(Plot.plot(options));
+  });
+
+</script>
+</body>
+</html>
