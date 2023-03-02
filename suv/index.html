@@ -81,9 +81,9 @@
     var options = {
       style: {fontSize: "14px", fontFamily: "'Libre Franklin', sans-serif;"},
       width: 550,
-      marginLeft: 40,
+      marginLeft: 0,
       x: {label: null, labelOffset: 50, tickSize: 0},
-      y: {domain: [0, 0.3], tickFormat: "%", ticks: 4, grid: true, label: null, tickSize: 0},
+      y: {domain: [0, 0.3], axis: "right", tickFormat: "%", ticks: 4, grid: true, label: null, tickSize: 0},
       marks: [
         Plot.ruleY([0], {stroke: "#333333", strokeWidth: 1}),
         Plot.line(data, {x: "year", y: "prop", stroke: "#e6550d", strokeWidth: 2.5})
