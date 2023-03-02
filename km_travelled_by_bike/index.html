@@ -81,10 +81,10 @@
     var options = {
       style: {fontSize: "14px", fontFamily: "'Libre Franklin', sans-serif;"},
       width: 550,
-      marginLeft: 10,
+      marginLeft: 40,
       insetTop: 20,
       x: {label: null, labelOffset: 50, tickSize: 0},
-      y: {domain: [0,25], axis: "right", grid: true, label: "Billion vehicle kilometres", labelOffset: -5, ticks: 6, tickSize: 0},
+      y: {domain: [0,25],grid: true, label: "Billion vehicle kilometres", labelOffset: 5, ticks: 6, tickSize: 0},
       marks: [
         Plot.ruleY([0], {stroke: "#333333", strokeWidth: 1}),
         Plot.line(data, {x: "year", y: "value", stroke: "#3182bd", strokeWidth: 2.5})
