@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Driving licence holders</title>
+<title>SUVs</title>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
@@ -62,34 +62,31 @@
 </head>
 
 <body>
-  <h5 id='visuallyhidden'>Connected dot plot of the percentage of driving licence holders in England by age group in 2000 and 2021. The chart shows that the percentage of teenagers able to drive has halved in the last twenty years.</h5>
+  <h5 id='visuallyhidden'>Line chart of the percentage of new vehicles sales as SUVs. The chart shows that SUV's have increased their share of vehicle sales rapidly over the last 10 years.</h5>
   <div>
-    <h2 id="title">Percentage of teenagers able to drive has halved in 20 years</h2>
-    <h3 id="subtitle">Full car driving licence holders by age, England</h3>
+    <h2 id="title">SUVs represent over a quarter of new vehicle sales</h2>
+    <h3 id="subtitle">% of new vehicle sales, UK</h3>
   </div>
   <div id='graphic'></div>
 
 <script>
 
   d3.csv("data/data.csv", d => ({
-    year: d.year,
-    age: d.age,
-    value: +d.value
+    year: d3.utcParse("%Y")(+d.year),
+    prop: +d.prop
   })).then(data => {
     console.log(data);
     var options = {
       style: {fontSize: "14px", fontFamily: "'Libre Franklin', sans-serif;"},
       width: 550,
-      marginLeft: 50,
-      x: {domain: [0,1], grid: true, label: null, labelOffset: 50, tickFormat: "%", tickSize: 0},
-      y: {domain: ["17-20","21-29","30-39","40-49","50-59","60-69","70+"], label: null, tickSize: 0},
-      color: {legend: true, range: ["#27A0CC", "#206095"], style: {fontSize: "14px", fontFamily: "'Libre Franklin', sans-serif;"}},
+      marginLeft: 40,
+      x: {label: null, labelOffset: 50, tickSize: 0},
+      y: {domain: [0, 0.3], tickFormat: "%", ticks: 4, grid: true, label: null, tickSize: 0},
       marks: [
-        Plot.ruleX([0], {stroke: "#333333", strokeWidth: 1}),
-        Plot.ruleY(data, Plot.groupY({x1: "min", x2: "max"}, {x: "value", y: "age", stroke: "#dddddd", strokeWidth: 2.5})),
-        Plot.dot(data, {x: "value", y: "age", r: 5, fill: "year"})
+        Plot.ruleY([0], {stroke: "#333333", strokeWidth: 1}),
+        Plot.line(data, {x: "year", y: "prop", stroke: "#e6550d", strokeWidth: 2.5})
       ],
-      caption: "Source: Table NTS0201, Department for Transport"
+      caption: "Source: SMMT"
     };
     document.getElementById('graphic').appendChild(Plot.plot(options));
   });
