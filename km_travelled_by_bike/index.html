@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kilometres travelled by pedal cycle</title>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin&family=Lora&display=swap');
+
+  body {
+    max-width: 700px;
+    margin: 0px auto;
+  }
+
+  #visuallyhidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+  }
+
+  #title {
+    font-family: 'Lora', serif;
+    font-weight: bold;
+    font-size: 20px;
+    color: #212121;
+    text-align: left;
+    margin-bottom: 0px;
+  }
+
+  #subtitle {
+    font-family: 'Lora', serif;
+    font-weight: normal;
+    font-size: 14px;
+    color: #212121;
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 20px;
+  }
+
+  figure {
+    margin: 0;
+    padding: 0;
+  }
+
+  figcaption {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 12px;
+    color: #212121;
+    margin: 16px 0 8px 0;
+  }
+
+</style>
+
+</head>
+
+<body>
+  <h5 id='visuallyhidden'>Line chart of the kilometres travelled by pedal cycle in Great Britain between 1949 and 2021. The chart shows that pedal cycling has sharply declined in popularity since the middle of the twentieth century. </h5>
+  <div>
+    <h2 id="title">Cycling was much more popular in the mid-20th century</h2>
+    <h3 id="subtitle">Kilometres travelled by pedal cycle, Great Britain, 1949-2021</h3>
+  </div>
+  <div id='graphic'></div>
+
+<script>
+
+  d3.csv("data/data.csv", d => ({
+    year: d3.utcParse("%Y")(+d.year),
+    value: +d.value
+  })).then(data => {
+    console.log(data);
+    var options = {
+      style: {fontSize: "14px", fontFamily: "'Libre Franklin', sans-serif;"},
+      width: 550,
+      marginLeft: 0,
+      x: {label: null, labelOffset: 50, tickSize: 0},
+      y: {axis: "right", grid: true, label: "Billion vehicle kilometres", ticks: 6, tickSize: 0},
+      marks: [
+        Plot.ruleY([0], {stroke: "#333333", strokeWidth: 1}),
+        Plot.line(data, {x: "year", y: "value", stroke: "#3182bd", strokeWidth: 2.5})
+      ],
+      caption: "Source: Table TRA0401: Department for Transport"
+    };
+    document.getElementById('graphic').appendChild(Plot.plot(options));
+  });
+
+</script>
+</body>
+</html>
